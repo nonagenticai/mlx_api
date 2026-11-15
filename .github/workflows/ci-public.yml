@@ -115,7 +115,9 @@ jobs:
         run: |
           set -euo pipefail
           uv export --frozen --all-extras --no-emit-project -o "$RUNNER_TEMP/requirements.txt"
-          uvx --from pip-audit pip-audit -r "$RUNNER_TEMP/requirements.txt"
+          # --python 3.14: uvx otherwise picks the runner's 3.15, where torch has no cp315
+          # wheel and pip-audit cannot even install the exported requirements.
+          uvx --python 3.14 --from pip-audit pip-audit -r "$RUNNER_TEMP/requirements.txt"
 
   # Build (and on main, publish) the image. OFF by default: enable per repo with the
   # repository variable `PUBLISH_IMAGE=true`.
