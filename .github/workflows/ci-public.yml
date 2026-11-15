@@ -79,6 +79,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: install ffmpeg
+        # The transcribe route shells out to ffmpeg and the suite exercises a real decode;
+        # the macOS runner image does not ship it.
+        run: brew install ffmpeg
+
       - uses: astral-sh/setup-uv@v6
         with:
           version: ${{ env.UV_VERSION }}
@@ -110,7 +115,9 @@ jobs:
         run: |
           set -euo pipefail
           uv export --frozen --all-extras --no-emit-project -o "$RUNNER_TEMP/requirements.txt"
-          uvx --from pip-audit pip-audit -r "$RUNNER_TEMP/requirements.txt"
+          # --python 3.14: uvx otherwise picks the runner's 3.15, where torch has no cp315
+          # wheel and pip-audit cannot even install the exported requirements.
+          uvx --python 3.14 --from pip-audit pip-audit -r "$RUNNER_TEMP/requirements.txt"
 
   # Build (and on main, publish) the image. OFF by default: enable per repo with the
   # repository variable `PUBLISH_IMAGE=true`.
