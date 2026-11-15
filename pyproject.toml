@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+license = "Apache-2.0"
+name = "mlx-api"
+version = "0.1.0"
+description = "Local Apple-silicon implementation of the provider contracts (embed, rerank, ocr, transcribe, vision)"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.10.0",
+    "python-multipart>=0.0.27",
+    "numpy>=2.0.0",
+    "mlx>=0.29; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "transformers>=4.50",
+    "huggingface-hub>=0.30",
+    "httpx>=0.28.0",
+    # Mac-only service: every capability is a runtime dependency. (Optional extras were
+    # uninstalled by any plain `uv run`, silently disabling ocr/transcribe.)
+    "mlx-whisper>=0.4.3",
+    "mlx-vlm>=0.7.8",
+    "pillow>=13.0.0",
+    "pypdfium2>=5.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=0.24.0",
+    "pytest-timeout>=2.3.1",
+    "ruff>=0.15",
+    "ty",
+    "httpx>=0.28.0",
+]
+parity = [
+    "torch>=2.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mlx_api"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "SIM"]
+ignore = ["S101"]
+
+[tool.ty.environment]
+python-version = "3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+timeout = 600
+markers = ["models: loads real model weights (slow; run on an Apple-silicon host)"]
+addopts = "-m 'not models'"
