@@ -79,6 +79,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: install ffmpeg
+        # The transcribe route shells out to ffmpeg and the suite exercises a real decode;
+        # the macOS runner image does not ship it.
+        run: brew install ffmpeg
+
       - uses: astral-sh/setup-uv@v6
         with:
           version: ${{ env.UV_VERSION }}

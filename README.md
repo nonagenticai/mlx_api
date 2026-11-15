@@ -4,7 +4,7 @@ Local Apple-silicon implementation of the provider wire contract: the same route
 commercial embedding, reranking, OCR, transcription and vision providers, so an application can
 switch between local models and a hosted API with no code change.
 
-Requires macOS on Apple silicon and Python 3.14+.
+Requires macOS on Apple silicon, Python 3.14+ and `ffmpeg` on `PATH`.
 
 | Capability | Route | Default model |
 |---|---|---|
