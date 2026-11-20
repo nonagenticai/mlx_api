@@ -13,10 +13,10 @@ dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
     "pydantic>=2.10.0",
-    "python-multipart>=0.0.27",
+    "python-multipart>=0.0.31",
     "numpy>=2.0.0",
-    "mlx>=0.29; sys_platform == 'darwin' and platform_machine == 'arm64'",
-    "transformers>=4.50",
+    "mlx>=0.29.4; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "transformers>=5.10.0",
     "huggingface-hub>=0.30",
     "httpx>=0.28.0",
     # Mac-only service: every capability is a runtime dependency. (Optional extras were
