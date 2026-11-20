@@ -33,7 +33,7 @@ dev = [
     "pytest-asyncio>=0.24.0",
     "pytest-timeout>=2.3.1",
     "ruff>=0.15",
-    "ty",
+    "ty>=0.0.104",
     "httpx>=0.28.0",
 ]
 parity = [
@@ -53,6 +53,10 @@ ignore = ["S101"]
 
 [tool.ty.environment]
 python-version = "3.14"
+
+[tool.ty.terminal]
+# Errors fail the gate; warnings (deprecations reported by third-party packages) do not.
+error-on-warning = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

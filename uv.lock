@@ -929,7 +929,7 @@ dev = [
     { name = "pytest-asyncio", specifier = ">=0.24.0" },
     { name = "pytest-timeout", specifier = ">=2.3.1" },
     { name = "ruff", specifier = ">=0.15" },
-    { name = "ty" },
+    { name = "ty", specifier = ">=0.0.104" },
 ]
 parity = [{ name = "torch", specifier = ">=2.9" }]
 
